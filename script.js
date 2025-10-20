@@ -285,7 +285,7 @@ function formatDate(date) {
 
 // Format development time
 function formatDevelopmentTime(hours) {
-    if (!window.i18n) return `${hours}h`;
+    if (!window.i18n) return `${Math.round(hours)}h`;
     
     const units = window.i18n.t('timeUnits');
     
@@ -293,28 +293,16 @@ function formatDevelopmentTime(hours) {
         const minutes = Math.round(hours * 60);
         return `${minutes} ${units.min}`;
     } else if (hours < 24) {
-        return `${hours} ${units.h}`;
+        return `${Math.round(hours)} ${units.h}`;
     } else if (hours < 168) { // less than a week
         const days = Math.round(hours / 8); // 8 hours per working day
         return `${days} ${units.d}`;
     } else if (hours < 672) { // less than a month (4 weeks)
         const weeks = hours / 168; // 168 hours per week (7 days * 24 hours)
-        if (weeks % 1 === 0) {
-            return `${Math.round(weeks)} ${units.wk}`;
-        } else if (weeks % 0.5 === 0) {
-            return `${weeks} ${units.wk}`;
-        } else {
-            return `${Math.round(weeks)} ${units.wk}`;
-        }
+        return `${Math.round(weeks)} ${units.wk}`;
     } else {
         const months = hours / 672; // 672 hours per month (4 weeks * 168 hours)
-        if (months % 1 === 0) {
-            return `${Math.round(months)} ${units.mo}`;
-        } else if (months % 0.5 === 0) {
-            return `${months} ${units.mo}`;
-        } else {
-            return `${Math.round(months)} ${units.mo}`;
-        }
+        return `${Math.round(months)} ${units.mo}`;
     }
 }
 
